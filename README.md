@@ -61,6 +61,8 @@ Dentro do servidor, na pasta dos arquivos do seu projeto:
 
 Pronto ! Agora temos todos os arquivos do nosso projeto dentro do servidor !
 
+
+______________________________________________________________________________________________
 A partir de agora toda vez que fizermos alguma alteração no nosso projeto, digitamos:
 
 Na nossa máquina dentro da pasta master:
@@ -72,4 +74,30 @@ Na nossa máquina dentro da pasta master:
 Dentro do servidor:
 ~ comando: cd projeto/
 ~ comando: git pull agenda master (Aqui colocamos as alterações em produção)
+________________________________________________________________________________________________
+
+Com os arquivos do projeto no servidor, vamos configurar o servidor e a aplicação para uso.
+
+Na pasta no projeto vamo instalar o nodejs e subir as dependências:
+~ comando: sudo apt install curl -y
+~ comando: curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+~ comando: sudo apt install nodejs -y
+~ comando: npm i
+
+Instalar Pm2 para gerenciar a aplicação:
+~ comando: sudo npm i -g pm2
+~ comando: pm2 start ~/caminhodoprojeto/server.js --name Projeto
+(Obs.: Caso seu banco utilize um arquivo .env, crie agr)
+
+Agora vamos configurar o Pm2 para startar nossa aplicação mesmo após correr uma reinicialização da maquina:
+~ comando: pm2 startup
+Copie e cole no terminal o comando de saída sujerido pelo Pm2
+Agora para testar se a aplicação está funcionando digitamos:
+~ comando: npm start
+(Se houver algum erro, você terá que debuggar)
+Para checkar se o pm2 está funcionado:
+~ comando: curl http://localhost:3000
+
+
+
 
