@@ -13,14 +13,13 @@
 Após a criação da chave ssh, adicionamos ela no Google Cloud Plataform, em Compute Engine/Metadados/Chaves SSH
 E copiamos o IP do servidor em Compute Engine/Instâncias de VM.
 
-Terminal git bash:
 * git-bash: ssh seusuario@ipdoservidor ou ssh ipdoservidor
 
 Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Google !
 
-Agora vamos preparar a máquina para utilizarmos...
+### Agora vamos preparar a máquina para utilizarmos...
 
-Terminal do servidor:
+#### Terminal do servidor:
 * bash: sudo apt update
 * bash: sudo apt upgrade
 
@@ -64,45 +63,45 @@ Terminal do servidor:
 ______________________________________________________________________________________________
 A partir de agora toda vez que fizermos alguma alteração no nosso projeto, digitamos:
 
-Na nossa máquina dentro da pasta master:
-~ comando: git add .
-~ comando: git commit -am 'A mensagem que queremos adicionar'
-~ comando: git push projeto master
+#### Na nossa máquina dentro da pasta master:
+* git-bash: git add .
+* git-bash: git commit -am 'A mensagem que queremos adicionar'
+* git-bash: git push projeto master
 (Assim seguindo o processo do tutorial enviamos os arquivos para a pasta repo-projeto dentro do servidor)
 
-Dentro do servidor:
-~ comando: cd projeto/
-~ comando: git pull agenda master (Aqui colocamos as alterações em produção)
+#### Dentro do servidor:
+* bash: cd projeto/
+* bash: git pull agenda master (Aqui colocamos as alterações em produção)
 ________________________________________________________________________________________________
 
-Com os arquivos do projeto no servidor, vamos configurar o servidor e a aplicação para uso.
+### Com os arquivos do projeto no servidor, vamos configurar o servidor e a aplicação para uso.
 
-Na pasta no projeto vamo instalar o nodejs e subir as dependências:
-~ comando: sudo apt install curl -y
-~ comando: curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-~ comando: sudo apt install nodejs -y
-~ comando: npm i
+#### Na pasta no projeto vamo instalar o nodejs e subir as dependências:
+* bash: sudo apt install curl -y
+* bash: curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+* bash: sudo apt install nodejs -y
+* bash: npm i
 
-Instalar Pm2 para gerenciar a aplicação:
-~ comando: sudo npm i -g pm2
-~ comando: pm2 start ~/caminhodoprojeto/server.js --name Projeto
-(Obs.: Caso seu banco utilize um arquivo .env, crie agr)
+#### Instalar Pm2 para gerenciar a aplicação:
+* bash: sudo npm i -g pm2
+* bash: pm2 start ~/caminhodoprojeto/server.js --name Projeto
+`(Obs.: Caso seu banco utilize um arquivo .env, crie agr)`
 
-Agora vamos configurar o Pm2 para startar nossa aplicação mesmo após correr uma reinicialização da maquina:
-~ comando: pm2 startup
+#### Agora vamos configurar o Pm2 para startar nossa aplicação mesmo após correr uma reinicialização da maquina:
+* bash: pm2 startup
 Copie e cole no terminal o comando de saída sujerido pelo Pm2
 Agora para testar se a aplicação está funcionando digitamos:
-~ comando: npm start
+* bash: npm start
 (Se houver algum erro, você terá que debuggar)
 Para checkar se o pm2 está funcionado:
-~ comando: curl http://localhost:3000
+* bash: curl http://localhost:3000
 
 
-Vamos instalar o nginx no servidor:
-~ comando: sudo apt install nginx
-~ comando: sudo systemctl status (Para verificar se o nginx está rodando)
+#### Vamos instalar o nginx no servidor:
+* bash: sudo apt install nginx
+* bash: sudo systemctl status (Para verificar se o nginx está rodando)
 
-Em seguida vamos configurar o nginx com um arquivo de configuração padrão criado (Copie em um arquivo txt na SUA maquina para editar posteriormente):
+#### Em seguida vamos configurar o nginx com um arquivo de configuração padrão criado (Copie em um arquivo txt na SUA maquina para editar posteriormente):
 
 
 
@@ -168,30 +167,30 @@ Em seguida vamos configurar o nginx com um arquivo de configuração padrão cri
 
 
 
-Abra o script no VSCODE e substituia todos os camos que estamo escritos "seudominio/ip" para seu dominio ou ip do servidor e salve.
+### Abra o script no VSCODE e substituia todos os camos que estamo escritos "seudominio/ip" para seu dominio ou ip do servidor e salve.
 
-Agora com as alterações realizadas no arquivo, copie tudo e vamos para o seguinte procedimento:
-~ comando: sudo nano /etc/nginx/sites-enabled/ipservidor
+#### Agora com as alterações realizadas no arquivo, copie tudo e vamos para o seguinte procedimento:
+* bash: sudo nano /etc/nginx/sites-enabled/ipservidor
 
 Depois de colar o arquivo de configuração, salve, e saia do nano. Digite:
-~ comando: cd /etc/nginx/sites-enabled/
-~ comando: sudo rm default
-~ comando: sudo nginx -t
-(Se a saída do comando acima mostrar algum erro, reveja o arquivo de configuração criado)
-~ comando: sudo systemctl restart nginx
+* bash: cd /etc/nginx/sites-enabled/
+* bash: sudo rm default
+* bash: sudo nginx -t
+`(Se a saída do comando acima mostrar algum erro, reveja o arquivo de configuração criado)`
+* comando: sudo systemctl restart nginx
 
 Agora acessando no navegador o dominio/ipdoservidor, terá acesso a aplicação, mas a aplicação está em http.
 Obs.: Um comportamneto padrão dos navegadores e redirecionar a pagina para https, e isto quebraria o caminha da aplicação, para resolver este problema
 vamos aplicar o seguinte passo para adicionar uma TLS(Cripytografia de segurança), mas para isto teremos que ter um dominio...Caso não tenha um dominio, não podemos 
 aplicar a configuração e prosseguir com o tutorial.
 
-~ comando: sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-~ comando: sudo apt-get install certbot
-~ comando: sudo service nginx stop
-~ comando: sudo certbot certonly --standalone -d seudominio.com.br
-~ Coloque um email valido e aceite
+* bash: sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+* bash: sudo apt-get install certbot
+* bash: sudo service nginx stop
+* bash: sudo certbot certonly --standalone -d seudominio.com.br
+###### Coloque um email valido e aceite
 
-Formate o arquivo substituindo tudo que está escrito seudominio para seu dominio:
+#### Formate o arquivo substituindo tudo que está escrito seudominio para seu dominio:
 
 
 		# O servidor não vai responder via IP
@@ -304,18 +303,18 @@ Formate o arquivo substituindo tudo que está escrito seudominio para seu domini
 	}
 
 
-~ comando: cd /etc/nginx/sites-enabled/
-~ comando: sudo rm ipdoservidor
-~ comando: sudo nano meudominio 
-~ Cole o arquivo de configuração nginx e salve
-~ comando: sudo service nginx start
+* bash: cd /etc/nginx/sites-enabled/
+* bash: sudo rm ipdoservidor
+* bash: sudo nano meudominio 
+##### Cole o arquivo de configuração nginx e salve
+* bash: sudo service nginx start
 
-Pronto ! Estamos com o certificado SSL.
-Após vencer o ser certificado usamos:
-~ comando: sudo certbot renew
+### Pronto ! Estamos com o certificado SSL.
+###### Após vencer o ser certificado usamos:
+* bash: sudo certbot renew
 
 
-Edição do app pelo Git (Windows):
+### Edição do app pelo Git (Windows):
 
 * git-bash: ssh $eval(agent)
 * git-bash: ssh-add ~/.ssh/suachave
