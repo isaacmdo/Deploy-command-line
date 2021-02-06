@@ -179,10 +179,8 @@ Depois de colar o arquivo de configuração, salve, e saia do nano. Digite:
 `(Se a saída do comando acima mostrar algum erro, reveja o arquivo de configuração criado)`
 * bash: `sudo systemctl restart nginx`
 
-#### Agora acessando no navegador o dominio/ipdoservidor, terá acesso a aplicação, mas a aplicação está em http.
-#### Obs.: Um comportamneto padrão dos navegadores e redirecionar a pagina para https, e isto quebraria o caminha da aplicação, para resolver este problema
-#### vamos aplicar o seguinte passo para adicionar uma TLS(Cripytografia de segurança), mas para isto teremos que ter um dominio...Caso não tenha um dominio, não podemos 
-#### aplicar a configuração e prosseguir com o tutorial.
+#### Agora acessando no navegador o dominio/ipdoservidor, terá acesso a aplicação, mas a aplicação está em http;
+#### Obs.: Um comportamneto padrão dos navegadores e redirecionar a pagina para https, e isto quebraria o caminha da aplicação, para resolver este problema vamos aplicar o seguinte passo para adicionar uma TLS(Cripytografia de segurança), mas para isto teremos que ter um dominio...Caso não tenha um dominio, não podemos aplicar a configuração e prosseguir com o tutorial.
 
 * bash: `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
 * bash: `sudo apt-get install certbot`
