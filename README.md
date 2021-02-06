@@ -30,7 +30,7 @@ Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Go
 * git-bash: `git config --global user.email "seuemail@seudominio.com"`
 * git-bash: `git config --global user.name "Seu nome"`
 * git-bash: `git init`
-* git-bash: `nano .gitignore` (escrever quais arquivos devemos ignorar no upload para o servidor)
+* git-bash: `nano .gitignore` (Escrever quais arquivos devemos ignorar no upload para o servidor)
 * git-bash: `git add .` (Para adicionar todos os arquivos)
 * git-bash: `git commit -am 'commit inicial'` 
 
@@ -94,7 +94,7 @@ ________________________________________________________________________________
 * bash: `npm start`
 (Se houver algum erro, você terá que debuggar)
 #### Para checkar se o pm2 está funcionado:
-* bash: `curl http://localhost:3000` (porta configurada da aplicação, 3000 é so um exemplo)
+* bash: `curl http://localhost:3000` (Porta configurada da aplicação, 3000 é so um exemplo)
 
 
 #### Vamos instalar o nginx no servidor:
@@ -325,10 +325,10 @@ Depois de colar o arquivo de configuração, salve, e saia do nano. Digite:
 
 ### Edição do app pelo Git (Unix):
 
-* git-bash: `git add .`
-* git-bash: `git commit -am 'Nova versão'`
-* git-bash: `git push projeto master`
-* git-bash: `ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"`
+* bash: `git add .`
+* bash: `git commit -am 'Nova versão'`
+* bash: `git push projeto master`
+* bash: `ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"`
 
 
 
