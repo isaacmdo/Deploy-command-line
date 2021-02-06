@@ -1,65 +1,64 @@
 # Deploy-command-line
-Realizando um deploy na linha de comando (Windows)
+## Realizando um deploy na linha de comando (Windows)
 
-Antes de realizar um deploy temos que obter um servidor..
-Neste tutorial uso a plataforma google cloud para obter um servidor na nuvem gratuitamente com o bônus que a plataforma concede.
+#### Antes de realizar um deploy temos que obter um servidor..
+#### Neste tutorial uso a plataforma google cloud para obter um servidor na nuvem gratuitamente com o bônus que a plataforma concede.
+#### Após criar uma Virtual Machine no Google Cloud Plataform, em Compute Engine/Instâncias de VM, e deixar o IP estático, vamos acessar a maquina via ssh.
 
-Após criar uma Virtual Machine no Google Cloud Plataform, em Compute Engine/Instâncias de VM, e deixar o IP estático, vamos acessar a maquina via ssh
-
-Terminal git bash:
-~ comando: ssh-keygen //Escolha o nome do arquivo da chave e senha ssh 
-~ comando: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
-~ comando: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
+### Terminal git-bash:
+* git-bash: ssh-keygen //Escolha o nome do arquivo da chave e senha ssh 
+* git-bash: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
 
 Após a criação da chave ssh, adicionamos ela no Google Cloud Plataform, em Compute Engine/Metadados/Chaves SSH
 E copiamos o IP do servidor em Compute Engine/Instâncias de VM.
 
 Terminal git bash:
-~ comando ssh seusuario@ipdoservidor ou ssh ipdoservidor
+* git-bash: ssh seusuario@ipdoservidor ou ssh ipdoservidor
 
 Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Google !
 
 Agora vamos preparar a máquina para utilizarmos...
 
 Terminal do servidor:
-~ comando: sudo apt update
-~ comando: sudo apt upgrade
+* bash: sudo apt update
+* bash: sudo apt upgrade
 
 
-Agora vamos configurar o Git para enviar arquivos ao servidor
+### Agora vamos configurar o Git para enviar arquivos ao servidor
 
-No Git Bash, dentro da pasta do projeto:
-~ comando: git config --global user.email "seuemail@seudominio.com"
-~ comando: git config --global user.name "Seu nome"
-~ comando: git init
-~ comando: nano .gitignore (escrever quais arquivos devemos ignorar no upload para o servidor)
-~ comando: git add . (Para adicionar todos os arquivos)
-~ comando: git commit -am 'commit inicial' 
+#### No Git Bash, dentro da pasta do projeto:
+* git-bash: git config --global user.email "seuemail@seudominio.com"
+* git-bash: git config --global user.name "Seu nome"
+* git-bash: git init
+* git-bash: nano .gitignore (escrever quais arquivos devemos ignorar no upload para o servidor)
+* git-bash: git add . (Para adicionar todos os arquivos)
+* git-bash: git commit -am 'commit inicial' 
 
-Pronto ! Configuramos o git para o envio ao servidor, agora vamos enviar os arquivos para o servidor
+### Pronto ! Configuramos o git para o envio ao servidor, agora vamos enviar os arquivos para o servidor
 
-~ comando: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
-~ comando: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
-~ comando: ssh ipdoservidor
+* git-bash: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: ssh ipdoservidor
 
-Dentro do servidor:
-~ comando: mkdir repo-projeto (Repositório dentro do servidor opcional)
-~ comando: mkdir projeto (Onde estaram os arquivos do nosso projeto)
-~ comando: cd repo-projeto/ 
-~ comando: git init --bare
-~ comando: cd ..
-~ comando: cd projeto/
-~ comando: git init
-~ comando: git remote add projeto /home/seuser/repo-projeto/
+#### Dentro do servidor:
+* bash: mkdir repo-projeto (Repositório dentro do servidor opcional)
+* bash: mkdir projeto (Onde estaram os arquivos do nosso projeto)
+* bash: cd repo-projeto/ 
+* bash: git init --bare
+* bash: cd ..
+* bash: cd projeto/
+* bash: git init
+* bash: git remote add projeto /home/seuser/repo-projeto/
 
-Dentro da sua máquina:
-~ comando: git remote add projeto ipdoservidor:repo-projeto
-~ comando: git push projeto master
+#### Dentro da sua máquina:
+* git-bash: git remote add projeto ipdoservidor:repo-projeto
+* git-bash: git push projeto master
 
-Dentro do servidor, na pasta dos arquivos do seu projeto:
-~ comando: git pull projeto master
+#### Dentro do servidor, na pasta dos arquivos do seu projeto:
+* bash: git pull projeto master
 
-Pronto ! Agora temos todos os arquivos do nosso projeto dentro do servidor !
+### Pronto ! Agora temos todos os arquivos do nosso projeto dentro do servidor !
 
 
 ______________________________________________________________________________________________
@@ -314,6 +313,17 @@ Formate o arquivo substituindo tudo que está escrito seudominio para seu domini
 Pronto ! Estamos com o certificado SSL.
 Após vencer o ser certificado usamos:
 ~ comando: sudo certbot renew
+
+
+Edição do app pelo Git (Windows):
+
+* git-bash: ssh $eval(agent)
+* git-bash: ssh-add ~/.ssh/suachave
+* git-bash: git add .
+* git-bash: git commit -am 'Nova versão'
+* git-bash: git push projeto master
+* git-bash: ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"
+
 
 
 
