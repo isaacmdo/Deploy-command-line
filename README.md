@@ -15,7 +15,7 @@ E copiamos o IP do servidor em Compute Engine/Instâncias de VM.
 
 * git-bash: `ssh seusuario@ipdoservidor ou ssh ipdoservidor`
 
-Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Google !
+Pronto ! Agora estamos acessando a máquina que criamos no do servidor da Google !
 
 ### Agora vamos preparar a máquina para utilizarmos...
 
@@ -40,8 +40,8 @@ Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Go
 * git-bash: `ssh-add ~/.(Diretório onde se encontra a chave)` //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
 * git-bash: `ssh ipdoservidor`
 
-#### Dentro do servidor:
-* bash: `mkdir repo-projeto` (Repositório dentro do servidor opcional)
+#### No servidor:
+* bash: `mkdir repo-projeto` (Repositório no servidor opcional)
 * bash: `mkdir projeto` (Onde estaram os arquivos do nosso projeto)
 * bash: `cd repo-projeto/` 
 * bash: `git init --bare`
@@ -50,14 +50,14 @@ Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Go
 * bash: `git init`
 * bash: `git remote add projeto /home/seuser/repo-projeto/`
 
-#### Dentro da sua máquina:
+#### Na sua máquina local:
 * git-bash: `git remote add projeto ipdoservidor:repo-projeto`
 * git-bash: `git push projeto master`
 
-#### Dentro do servidor, na pasta dos arquivos do seu projeto:
+#### No servidor, dentro da pasta dos arquivos do seu projeto:
 * bash: `git pull projeto master`
 
-### Pronto ! Agora temos todos os arquivos do nosso projeto dentro do servidor !
+### Pronto ! Agora temos todos os arquivos do nosso projeto no servidor !
 
 
 ______________________________________________________________________________________________
@@ -67,9 +67,9 @@ ________________________________________________________________________________
 * git-bash: `git add .`
 * git-bash: `git commit -am 'A mensagem que queremos adicionar'`
 * git-bash: `git push projeto master`
-(Assim seguindo o processo do tutorial enviamos os arquivos para a pasta repo-projeto dentro do servidor)
+(Assim seguindo o processo do tutorial enviamos os arquivos para a pasta repo-projeto no servidor)
 
-#### Dentro do servidor:
+#### No servidor:
 * bash: ``=cd projeto/`
 * bash: `git pull agenda master` (Aqui colocamos as alterações em produção)
 ________________________________________________________________________________________________
@@ -329,14 +329,3 @@ Depois de colar o arquivo de configuração, salve, e saia do nano. Digite:
 * bash: `git commit -am 'Nova versão'`
 * bash: `git push projeto master`
 * bash: `ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"`
-
-
-
-
-
-
-
-
-
-
-
