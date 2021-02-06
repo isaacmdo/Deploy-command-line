@@ -6,100 +6,100 @@
 #### Após criar uma Virtual Machine no Google Cloud Plataform, em Compute Engine/Instâncias de VM, e deixar o IP estático, vamos acessar a maquina via ssh.
 
 ### Terminal git-bash:
-* git-bash: ssh-keygen //Escolha o nome do arquivo da chave e senha ssh 
-* git-bash: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
-* git-bash: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: `ssh-keygen` //Escolha o nome do arquivo da chave e senha ssh 
+* git-bash: `eval $(ssh-agent)` //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: `ssh-add ~/.(Diretório onde se encontra a chave)` //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
 
 Após a criação da chave ssh, adicionamos ela no Google Cloud Plataform, em Compute Engine/Metadados/Chaves SSH
 E copiamos o IP do servidor em Compute Engine/Instâncias de VM.
 
-* git-bash: ssh seusuario@ipdoservidor ou ssh ipdoservidor
+* git-bash: `ssh seusuario@ipdoservidor ou ssh ipdoservidor`
 
 Pronto ! Agora estamos acessando a máquina que criamos dentro do servidor da Google !
 
 ### Agora vamos preparar a máquina para utilizarmos...
 
 #### Terminal do servidor:
-* bash: sudo apt update
-* bash: sudo apt upgrade
+* bash: `sudo apt update`
+* bash: `sudo apt upgrade`
 
 
 ### Agora vamos configurar o Git para enviar arquivos ao servidor
 
 #### No Git Bash, dentro da pasta do projeto:
-* git-bash: git config --global user.email "seuemail@seudominio.com"
-* git-bash: git config --global user.name "Seu nome"
-* git-bash: git init
-* git-bash: nano .gitignore (escrever quais arquivos devemos ignorar no upload para o servidor)
-* git-bash: git add . (Para adicionar todos os arquivos)
-* git-bash: git commit -am 'commit inicial' 
+* git-bash: `git config --global user.email "seuemail@seudominio.com"`
+* git-bash: `git config --global user.name "Seu nome"`
+* git-bash: `git init`
+* git-bash: `nano .gitignore` (escrever quais arquivos devemos ignorar no upload para o servidor)
+* git-bash: `git add .` (Para adicionar todos os arquivos)
+* git-bash: `git commit -am 'commit inicial'` 
 
 ### Pronto ! Configuramos o git para o envio ao servidor, agora vamos enviar os arquivos para o servidor
 
-* git-bash: eval $(ssh-agent) //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
-* git-bash: ssh-add ~/.(Diretório onde se encontra a chave) //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
-* git-bash: ssh ipdoservidor
+* git-bash: `eval $(ssh-agent)` //Ativar o agente ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: `ssh-add ~/.(Diretório onde se encontra a chave)` //Adicionar  a chave ssh (Este comando se repete toda vez que iniciamos o computador)
+* git-bash: `ssh ipdoservidor`
 
 #### Dentro do servidor:
-* bash: mkdir repo-projeto (Repositório dentro do servidor opcional)
-* bash: mkdir projeto (Onde estaram os arquivos do nosso projeto)
-* bash: cd repo-projeto/ 
-* bash: git init --bare
-* bash: cd ..
-* bash: cd projeto/
-* bash: git init
-* bash: git remote add projeto /home/seuser/repo-projeto/
+* bash: `mkdir repo-projeto` (Repositório dentro do servidor opcional)
+* bash: `mkdir projeto` (Onde estaram os arquivos do nosso projeto)
+* bash: `cd repo-projeto/` 
+* bash: `git init --bare`
+* bash: `cd ..`
+* bash: `cd projeto/`
+* bash: `git init`
+* bash: `git remote add projeto /home/seuser/repo-projeto/`
 
 #### Dentro da sua máquina:
-* git-bash: git remote add projeto ipdoservidor:repo-projeto
-* git-bash: git push projeto master
+* git-bash: `git remote add projeto ipdoservidor:repo-projeto`
+* git-bash: `git push projeto master`
 
 #### Dentro do servidor, na pasta dos arquivos do seu projeto:
-* bash: git pull projeto master
+* bash: `git pull projeto master`
 
 ### Pronto ! Agora temos todos os arquivos do nosso projeto dentro do servidor !
 
 
 ______________________________________________________________________________________________
-A partir de agora toda vez que fizermos alguma alteração no nosso projeto, digitamos:
 
-#### Na nossa máquina dentro da pasta master:
-* git-bash: git add .
-* git-bash: git commit -am 'A mensagem que queremos adicionar'
-* git-bash: git push projeto master
+### A partir de agora toda vez que fizermos alguma alteração no nosso projeto, digitamos:
+#### Na nossa máquina local dentro da pasta master:
+* git-bash: `git add .`
+* git-bash: `git commit -am 'A mensagem que queremos adicionar'`
+* git-bash: `git push projeto master`
 (Assim seguindo o processo do tutorial enviamos os arquivos para a pasta repo-projeto dentro do servidor)
 
 #### Dentro do servidor:
-* bash: cd projeto/
-* bash: git pull agenda master (Aqui colocamos as alterações em produção)
+* bash: ``=cd projeto/`
+* bash: `git pull agenda master` (Aqui colocamos as alterações em produção)
 ________________________________________________________________________________________________
 
 ### Com os arquivos do projeto no servidor, vamos configurar o servidor e a aplicação para uso.
 
 #### Na pasta no projeto vamo instalar o nodejs e subir as dependências:
-* bash: sudo apt install curl -y
-* bash: curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-* bash: sudo apt install nodejs -y
-* bash: npm i
+* bash: `sudo apt install curl -y`
+* bash: `curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -`
+* bash: `sudo apt install nodejs -y`
+* bash: `npm i`
 
 #### Instalar Pm2 para gerenciar a aplicação:
-* bash: sudo npm i -g pm2
-* bash: pm2 start ~/caminhodoprojeto/server.js --name Projeto
-`(Obs.: Caso seu banco utilize um arquivo .env, crie agr)`
+* bash: `sudo npm i -g pm2`
+* bash: `pm2 start ~/caminhodoprojeto/server.js --name Projeto`
+(Obs.: Caso seu banco utilize um arquivo .env, crie agr)
 
 #### Agora vamos configurar o Pm2 para startar nossa aplicação mesmo após correr uma reinicialização da maquina:
-* bash: pm2 startup
-Copie e cole no terminal o comando de saída sujerido pelo Pm2
-Agora para testar se a aplicação está funcionando digitamos:
-* bash: npm start
+* bash: `pm2 startup`
+(Copie e cole no terminal o comando de saída sujerido pelo Pm2)
+#### Agora para testar se a aplicação está funcionando digitamos:
+* bash: `npm start`
 (Se houver algum erro, você terá que debuggar)
-Para checkar se o pm2 está funcionado:
-* bash: curl http://localhost:3000
+#### Para checkar se o pm2 está funcionado:
+* bash: `curl http://localhost:3000` (porta configurada da aplicação, 3000 é so um exemplo)
 
 
 #### Vamos instalar o nginx no servidor:
-* bash: sudo apt install nginx
-* bash: sudo systemctl status (Para verificar se o nginx está rodando)
+* bash: `sudo apt install nginx`
+* bash: `sudo systemctl status` (Para verificar se o nginx está rodando)
 
 #### Em seguida vamos configurar o nginx com um arquivo de configuração padrão criado (Copie em um arquivo txt na SUA maquina para editar posteriormente):
 
@@ -170,25 +170,25 @@ Para checkar se o pm2 está funcionado:
 ### Abra o script no VSCODE e substituia todos os camos que estamo escritos "seudominio/ip" para seu dominio ou ip do servidor e salve.
 
 #### Agora com as alterações realizadas no arquivo, copie tudo e vamos para o seguinte procedimento:
-* bash: sudo nano /etc/nginx/sites-enabled/ipservidor
+* bash: `sudo nano /etc/nginx/sites-enabled/ipservidor`
 
 Depois de colar o arquivo de configuração, salve, e saia do nano. Digite:
-* bash: cd /etc/nginx/sites-enabled/
-* bash: sudo rm default
-* bash: sudo nginx -t
+* bash: `cd /etc/nginx/sites-enabled/`
+* bash: `sudo rm default`
+* bash: `sudo nginx -t`
 `(Se a saída do comando acima mostrar algum erro, reveja o arquivo de configuração criado)`
-* comando: sudo systemctl restart nginx
+* bash: `sudo systemctl restart nginx`
 
-Agora acessando no navegador o dominio/ipdoservidor, terá acesso a aplicação, mas a aplicação está em http.
-Obs.: Um comportamneto padrão dos navegadores e redirecionar a pagina para https, e isto quebraria o caminha da aplicação, para resolver este problema
-vamos aplicar o seguinte passo para adicionar uma TLS(Cripytografia de segurança), mas para isto teremos que ter um dominio...Caso não tenha um dominio, não podemos 
-aplicar a configuração e prosseguir com o tutorial.
+#### Agora acessando no navegador o dominio/ipdoservidor, terá acesso a aplicação, mas a aplicação está em http.
+#### Obs.: Um comportamneto padrão dos navegadores e redirecionar a pagina para https, e isto quebraria o caminha da aplicação, para resolver este problema
+#### vamos aplicar o seguinte passo para adicionar uma TLS(Cripytografia de segurança), mas para isto teremos que ter um dominio...Caso não tenha um dominio, não podemos 
+#### aplicar a configuração e prosseguir com o tutorial.
 
-* bash: sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-* bash: sudo apt-get install certbot
-* bash: sudo service nginx stop
-* bash: sudo certbot certonly --standalone -d seudominio.com.br
-###### Coloque um email valido e aceite
+* bash: `sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048`
+* bash: `sudo apt-get install certbot`
+* bash: `sudo service nginx stop`
+* bash: `sudo certbot certonly --standalone -d seudominio.com.br`
+###### Coloque um email válido e aceite
 
 #### Formate o arquivo substituindo tudo que está escrito seudominio para seu dominio:
 
@@ -303,26 +303,32 @@ aplicar a configuração e prosseguir com o tutorial.
 	}
 
 
-* bash: cd /etc/nginx/sites-enabled/
-* bash: sudo rm ipdoservidor
-* bash: sudo nano meudominio 
+* bash: `cd /etc/nginx/sites-enabled/`
+* bash: `sudo rm ipdoservidor`
+* bash: `sudo nano meudominio` 
 ##### Cole o arquivo de configuração nginx e salve
-* bash: sudo service nginx start
+* bash: `sudo service nginx start`
 
 ### Pronto ! Estamos com o certificado SSL.
 ###### Após vencer o ser certificado usamos:
-* bash: sudo certbot renew
+* bash: `sudo certbot renew`
 
 
 ### Edição do app pelo Git (Windows):
 
-* git-bash: ssh $eval(agent)
-* git-bash: ssh-add ~/.ssh/suachave
-* git-bash: git add .
-* git-bash: git commit -am 'Nova versão'
-* git-bash: git push projeto master
-* git-bash: ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"
+* git-bash: `ssh $eval(agent)`
+* git-bash: `ssh-add ~/.ssh/suachave`
+* git-bash: `git add .`
+* git-bash: `git commit -am 'Nova versão'`
+* git-bash: `git push projeto master`
+* git-bash: `ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"`
 
+### Edição do app pelo Git (Unix):
+
+* git-bash: `git add .`
+* git-bash: `git commit -am 'Nova versão'`
+* git-bash: `git push projeto master`
+* git-bash: `ssh <ip/dominio> "git -C /home/seuser/projeto/ pull projeto master"`
 
 
 
